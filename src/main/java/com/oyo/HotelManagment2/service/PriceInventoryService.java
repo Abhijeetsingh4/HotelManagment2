@@ -34,7 +34,7 @@ public class PriceInventoryService {
     // checkout also requried as parameter
     public List<PriceInventoryResponseDto> getPriceAndInvetoryForHotel(Integer hotelId, LocalDate checkin) {
         List<PriceInventoryResponseDto> priceInventoryResponseDtoList = new ArrayList<>();
-        List<PriceInventoryDetails> priceInventoryDetails = priceInventoryRepository.findByHotelIdAndCheckin(hotelId, checkin);
+        List<PriceInventoryDetails> priceInventoryDetails = priceInventoryRepository.findByHotelIdAndDate(hotelId, checkin);
         for (PriceInventoryDetails priceInventoryDetail : priceInventoryDetails) {
             PriceInventoryResponseDto responseDto = convertpriceInventoryDetailsToPriceInventoryResponseDto(priceInventoryDetail);
             priceInventoryResponseDtoList.add(responseDto);

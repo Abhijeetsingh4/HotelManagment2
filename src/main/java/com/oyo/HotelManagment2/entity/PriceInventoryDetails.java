@@ -35,4 +35,5 @@ public class PriceInventoryDetails {
 
     @Column(name="date")
     LocalDate date;
+
 }

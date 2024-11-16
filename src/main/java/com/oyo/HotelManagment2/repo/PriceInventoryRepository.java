@@ -11,5 +11,5 @@ import java.util.List;
 public interface PriceInventoryRepository extends JpaRepository<PriceInventoryDetails, Integer> {
 
 
-    List<PriceInventoryDetails> findByHotelIdAndCheckin(Integer hotelId, LocalDate checkin);
+    List<PriceInventoryDetails> findByHotelIdAndDate(Integer hotelId, LocalDate checkin);
 }
