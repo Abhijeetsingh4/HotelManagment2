@@ -1,6 +1,8 @@
 package com.oyo.HotelManagment2.controller;
 
+import com.oyo.HotelManagment2.Annotations.Log;
 import com.oyo.HotelManagment2.Exception.HotelNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,45 +16,46 @@ import com.oyo.HotelManagment2.dto.request.HotelRequestDto;
 import com.oyo.HotelManagment2.dto.response.HotelResponseDto;
 import com.oyo.HotelManagment2.service.HotelService;
 
+@Slf4j
 @RequestMapping("/api/v1/hotel")
 @RestController
 public class HotelController {
 
-  @Autowired
-  private HotelService hotelService;
+    @Autowired
+    private HotelService hotelService;
 
 
-  //get ALl hotels By location
+    //get ALl hotels By location
 
-  @PostMapping("/create")
-  public ResponseEntity<Boolean> createHotel(@RequestBody HotelRequestDto hotelRequestDto){
-    Boolean success= hotelService.createHotel(hotelRequestDto);
+//    @Log
+    @PostMapping("/create")
+    public ResponseEntity<Boolean> createHotel(@RequestBody HotelRequestDto hotelRequestDto) {
+        Boolean success = hotelService.createHotel(hotelRequestDto);
+        log.info("request sent by customer:{}", hotelRequestDto.getHotelName());
 
-    return  new ResponseEntity<>(success, HttpStatus.CREATED);
-
-  }
-
-
-
-  @GetMapping("/")
-  public ResponseEntity<HotelResponseDto> getHotelDetails(@RequestParam Integer hotelId)  {
-
-    try{
-      HotelResponseDto hotelResponseDto=  hotelService.getHotelDetails(hotelId);
-      return new ResponseEntity<>(hotelResponseDto,HttpStatus.OK);
-
-    }
-    catch (HotelNotFoundException e){
-      HotelResponseDto  hotelResponseDto = new HotelResponseDto();
-      hotelResponseDto.setErrorMessage(e.getMessage());
-      return new ResponseEntity<>(hotelResponseDto,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(success, HttpStatus.CREATED);
 
     }
 
+    @Log
+    @GetMapping("/")
+    public ResponseEntity<HotelResponseDto> getHotelDetails(@RequestParam Integer hotelId) {
 
-  }
+        try {
+            HotelResponseDto hotelResponseDto = hotelService.getHotelDetails(hotelId);
+            log.info("Hotel request came to system for hotelId:{}", hotelId);
+            return new ResponseEntity<>(hotelResponseDto, HttpStatus.OK);
+
+        } catch (HotelNotFoundException e) {
+            log.error("Error occured while getting data for hotelId: {}", hotelId);
+            HotelResponseDto hotelResponseDto = new HotelResponseDto();
+            hotelResponseDto.setErrorMessage(e.getMessage());
+            return new ResponseEntity<>(hotelResponseDto, HttpStatus.BAD_REQUEST);
+
+        }
 
 
+    }
 
 
 }

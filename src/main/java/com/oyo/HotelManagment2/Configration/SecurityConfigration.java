@@ -34,7 +34,7 @@ public class SecurityConfigration {
     public UserDetailsService userDetailsService() {
 
         UserDetails user1 = User.builder().username("ajay").password(getEncoder().encode("ajay123")).roles("USER").build();
-        UserDetails user2 = User.builder().username("kartik").password("{noop}kartik123").roles("ADMIN").build();
+        UserDetails user2 = User.builder().username("kartik").password(getEncoder().encode("kartik123")).roles("ADMIN").build();
         UserDetails user3 = User.builder().username("abhijeet").password("{noop}abhijeet123").roles("ADMIN").build();
         return new InMemoryUserDetailsManager(user1, user2, user3);
 
